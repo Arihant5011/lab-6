@@ -1,0 +1,256 @@
+/* ============================================================
+   Design tokens
+   Color
+     --ink        #0D1016  base background (near-black, slightly blue)
+     --ink-2      #171C26  raised panel background
+     --parchment  #EDE6D6  primary text
+     --muted      #9C958A  secondary / meta text
+     --wine       #7A2B2B  primary accent (borders, rules)
+     --wine-soft  #9C4A42  accent, hover/lighter state
+     --brass      #B08D57  secondary accent (fine rules, small marks)
+   Type
+     display: "Fraunces"      — headline, italics used for emphasis
+     body:    "Source Serif 4" — running text, slightly lighter weight
+   ============================================================ */
+
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap");
+
+:root {
+  --ink: #0d1016;
+  --ink-2: #171c26;
+  --parchment: #ede6d6;
+  --muted: #9c958a;
+  --wine: #7a2b2b;
+  --wine-soft: #9c4a42;
+  --brass: #b08d57;
+
+  --font-display: "Fraunces", Georgia, serif;
+  --font-body: "Source Serif 4", Georgia, serif;
+
+  --measure: 62ch;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background-color: var(--ink);
+  color: var(--parchment);
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- textured background ----------
+   A layered gradient + faint grain stand in for a photographic
+   background image: they give the page depth and atmosphere
+   without depending on an external image asset that may not
+   load. Swap the --hero-image custom property for a url() if
+   a real photograph is preferred. */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem 1.5rem;
+  background-image:
+    radial-gradient(ellipse at 50% -10%, rgba(122, 43, 43, 0.35), transparent 60%),
+    radial-gradient(ellipse at 85% 110%, rgba(176, 141, 87, 0.12), transparent 55%),
+    linear-gradient(180deg, #0a0c11 0%, #0d1016 45%, #12161f 100%);
+  overflow: hidden;
+}
+
+.hero::before {
+  /* fine grain overlay for a paper-like texture */
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.5;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.35'/></svg>");
+  pointer-events: none;
+}
+
+.eyebrow {
+  position: relative;
+  font-family: var(--font-body);
+  font-style: italic;
+  color: var(--brass);
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  margin-bottom: 1.1rem;
+}
+
+.hero h1 {
+  position: relative;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(2.6rem, 6vw, 4.6rem);
+  line-height: 1.05;
+  margin: 0 0 1rem;
+  color: var(--parchment);
+}
+
+.hero h1 em {
+  font-style: italic;
+  font-weight: 500;
+  color: var(--wine-soft);
+}
+
+.hero .tagline {
+  position: relative;
+  max-width: 44ch;
+  font-size: 1.15rem;
+  color: var(--muted);
+  margin: 0;
+}
+
+.rule {
+  position: relative;
+  width: 72px;
+  height: 2px;
+  margin: 2rem 0;
+  background: var(--brass);
+}
+
+/* ---------- main content ---------- */
+main {
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: 5rem 1.5rem 7rem;
+}
+
+section + section {
+  margin-top: 4.5rem;
+}
+
+h2 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.8rem;
+  color: var(--parchment);
+  margin: 0 0 1.25rem;
+}
+
+p {
+  margin: 0 0 1.1rem;
+  color: var(--parchment);
+}
+
+p.lede {
+  color: var(--muted);
+}
+
+/* ---------- bordered text block ----------
+   A book-page style frame: a slim outer rule in brass and a
+   heavier inner rule in wine, with breathing room between
+   them, used for the pull quote describing the novel. */
+.framed {
+  position: relative;
+  border: 1px solid var(--brass);
+  padding: 2.4rem 2.2rem;
+  background: var(--ink-2);
+}
+
+.framed::before {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  border: 1px solid var(--wine);
+  pointer-events: none;
+}
+
+.framed .mark {
+  display: block;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 2.6rem;
+  line-height: 1;
+  color: var(--wine-soft);
+  margin-bottom: 0.4rem;
+}
+
+.framed p {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-style: italic;
+  line-height: 1.55;
+  color: var(--parchment);
+  margin-bottom: 0.9rem;
+}
+
+.framed footer {
+  font-family: var(--font-body);
+  font-style: normal;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+/* ---------- theme list ---------- */
+.themes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1.4rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.themes li {
+  padding: 1rem 0;
+  border-top: 1px solid rgba(156, 149, 138, 0.25);
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+/* ---------- footer ---------- */
+footer.site {
+  border-top: 1px solid rgba(156, 149, 138, 0.2);
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+footer.site a {
+  color: var(--brass);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(176, 141, 87, 0.4);
+}
+
+footer.site a:hover {
+  color: var(--wine-soft);
+  border-color: var(--wine-soft);
+}
+
+/* ---------- accessibility ---------- */
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--brass);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+@media (max-width: 560px) {
+  .framed {
+    padding: 1.8rem 1.4rem;
+  }
+  .framed::before {
+    inset: 6px;
+  }
+}
